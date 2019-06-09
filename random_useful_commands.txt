@@ -20,6 +20,7 @@ for /f "tokens=2,3 delims={,}" %a in ('"WMIC NICConfig where IPEnabled="True" ge
 REM Determining All IPV4 and IPV6 on all Adapters Script Version
 for /f "tokens=2,3 delims={,}" %%a in ('"WMIC NICConfig where IPEnabled="True" get DefaultIPGateway, IPAddress /value | find "I" "') do echo IPv4 %%~a IPV6 %%~b
 
+REM IT detects if the interface is connected or not, requires administrator rights.
 @echo off
 for /F "skip=3 tokens=1,2,3* delims= " %%G in ('netsh interface show interface') DO (
     IF "%%H"=="Disconnected" netsh interface set interface "%%J" enabled
