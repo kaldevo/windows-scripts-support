@@ -1,0 +1,28 @@
+@echo off
+for /f "tokens=2,3 delims={,}" %%a in ('"WMIC NICConfig where IPEnabled="True" get DefaultIPGateway /value | find "I" "') do echo IPv4 %%~a IPV6 %%~b
+pause
+
+REM Detecting NIC-MAC that is Connected.
+wmic path Win32_NetworkAdapter where "PNPDeviceID like '%%PCI%%' AND NetConnectionStatus='2'" get name, MacAddress
+
+REM Detecting Nic-MAC that is the main Adapter but may or may not be connected.
+wmic path Win32_NetworkAdapter where "PNPDeviceID like '%%PCI%%' AND AdapterTypeID='0'" get name, MacAddress
+
+REM Grabbing Network Information
+wmic nicconfig get IPAddress,ServiceName,DefaultIPGateway
+
+REM Detects main adapter and shows the information
+wmic nicconfig where "ServiceName like '%main%'" get IPAddress,ServiceName,DefaultIPGateway
+
+REM Determining All IPV4 and IPV6 on all Adapters
+for /f "tokens=2,3 delims={,}" %a in ('"WMIC NICConfig where IPEnabled="True" get DefaultIPGateway, IPAddress /value | find "I" "') do echo IPv4 %~a IPV6 %~b
+
+REM Determining All IPV4 and IPV6 on all Adapters Script Version
+for /f "tokens=2,3 delims={,}" %%a in ('"WMIC NICConfig where IPEnabled="True" get DefaultIPGateway, IPAddress /value | find "I" "') do echo IPv4 %%~a IPV6 %%~b
+
+@echo off
+for /F "skip=3 tokens=1,2,3* delims= " %%G in ('netsh interface show interface') DO (
+    IF "%%H"=="Disconnected" netsh interface set interface "%%J" enabled
+    IF "%%H"=="Connected" netsh interface set interface "%%J" disabled
+)
+pause
