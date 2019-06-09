@@ -1,3 +1,7 @@
+REM This scripts queries and displays basic information about your Username, Hostname, IP etc.
+REM Deploy this script using GPO and create a shortcut in the users Desktop.
+REM I made this to give Support/Helpdesk to get the basic information from their users or customers.
+REM Usage: Just run it.
 @echo off
 color 1F
 mode con: cols=75 lines=22 
