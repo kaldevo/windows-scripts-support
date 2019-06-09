@@ -18,7 +18,9 @@ REM Determining All IPV4 and IPV6 on all Adapters
 for /f "tokens=2,3 delims={,}" %a in ('"WMIC NICConfig where IPEnabled="True" get DefaultIPGateway, IPAddress /value | find "I" "') do echo IPv4 %~a IPV6 %~b
 
 REM Determining All IPV4 and IPV6 on all Adapters Script Version
+@echo off
 for /f "tokens=2,3 delims={,}" %%a in ('"WMIC NICConfig where IPEnabled="True" get DefaultIPGateway, IPAddress /value | find "I" "') do echo IPv4 %%~a IPV6 %%~b
+pause
 
 REM IT detects if the interface is connected or not, requires administrator rights.
 @echo off
